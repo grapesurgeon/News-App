@@ -6,13 +6,10 @@ import java.util.List;
 
 public class News {
 
-    @Expose
     private String status;
 
-    @Expose
     private int totalResults;
 
-    @Expose
     private List<Article> articles;
 
     public String getStatus() {
@@ -28,28 +25,21 @@ public class News {
     }
 
     class Article{
-        @Expose
+
         private Source source;
 
-        @Expose
         private String author;
 
-        @Expose
         private String title;
 
-        @Expose
         private String description;
 
-        @Expose
         private String url;
 
-        @Expose
         private String urlToImage;
 
-        @Expose
         private String publishedAt;
 
-        @Expose
         private String content;
 
         public Source getSource() {
@@ -85,10 +75,8 @@ public class News {
         }
 
         class Source{
-            @Expose
             private String id; // not mandatory, check for null
 
-            @Expose
             private String name;
 
             public String getId() {

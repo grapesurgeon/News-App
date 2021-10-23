@@ -12,7 +12,7 @@ public interface NewsApiEndpointInterface {
 
     String BASE_URL = "https://newsapi.org/v2/";
 
-    @GET("everything?")
+    @GET("everything")
     Call<News> getNews(@Query("q") String query,
                              @Query("sortBy") String sort,
                              @Query("apiKey") String apiKey);
