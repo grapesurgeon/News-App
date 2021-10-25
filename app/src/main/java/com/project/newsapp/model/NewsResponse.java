@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
-public class News {
+public class NewsResponse {
 
     private String status;
 
