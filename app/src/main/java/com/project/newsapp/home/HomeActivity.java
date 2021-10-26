@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        binding.bottomNavigation.setOnItemSelectedListener((NavigationBarView.OnItemSelectedListener) item -> {
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.page_1:
                     initFragment(new NewsFragment());
@@ -69,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
                     initFragment(new ProfileFragment());
                     break;
             }
+            return false;
         });
     }
 
