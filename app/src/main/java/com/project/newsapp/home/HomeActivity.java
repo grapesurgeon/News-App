@@ -53,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
 //                    }
 //                });
 
+        initFragment(new ListFragment());
         initView();
     }
 
@@ -60,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.page_1:
-                    initFragment(new NewsFragment());
+                    initFragment(new ListFragment());
                     break;
                 case R.id.page_2:
                     initFragment(new BookmarkFragment());
@@ -69,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
                     initFragment(new ProfileFragment());
                     break;
             }
-            return false;
+            return true;
         });
     }
 

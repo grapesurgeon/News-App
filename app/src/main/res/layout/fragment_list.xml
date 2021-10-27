@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".home.ListFragment">
 
-    <androidx.appcompat.widget.SearchView
+    <SearchView
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,6 +20,7 @@
         app:tabGravity="fill"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@android:color/holo_green_light"
+        android:background="#DCE1E1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -33,5 +34,34 @@
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/tabs"
         tools:listitem="@layout/news_item" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/tabs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminate="true"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/fl_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tabs"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/fl_content"
+            layout="@layout/layout_error"/>
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

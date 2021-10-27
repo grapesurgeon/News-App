@@ -24,7 +24,7 @@ public class NewsResponse {
         return articles;
     }
 
-    class Article{
+    public class Article{
 
         private Source source;
 
@@ -74,7 +74,7 @@ public class NewsResponse {
             return content;
         }
 
-        class Source{
+        public class Source{
             private String id; // not mandatory, check for null
 
             private String name;

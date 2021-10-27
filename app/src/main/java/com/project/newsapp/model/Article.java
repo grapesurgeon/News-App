@@ -29,8 +29,7 @@ public class Article {
 
     private String content;
 
-    public Article(long id, String sourceId, String sourceName, String author, String title, String description, String url, String urlToImage, String publishedAt, String content) {
-        this.id = id;
+    public Article(String sourceId, String sourceName, String author, String title, String description, String url, String urlToImage, String publishedAt, String content, String category) {
         this.sourceId = sourceId;
         this.sourceName = sourceName;
         this.author = author;
@@ -40,6 +39,7 @@ public class Article {
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
         this.content = content;
+        this.category = category;
     }
 
     public long getId() {
@@ -80,5 +80,53 @@ public class Article {
 
     public String getContent() {
         return content;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setUrlToImage(String urlToImage) {
+        this.urlToImage = urlToImage;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
