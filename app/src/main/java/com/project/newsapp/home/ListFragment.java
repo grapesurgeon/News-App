@@ -1,12 +1,15 @@
 package com.project.newsapp.home;
 
 import static com.project.newsapp.Constants.API_KEY;
+import static com.project.newsapp.Constants.DB_FILLED;
+import static com.project.newsapp.Constants.DB_PREFERENCE;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
@@ -50,6 +53,8 @@ public class ListFragment extends Fragment {
 
     private LayoutErrorBinding errorBinding;
 
+    private SharedPreferences preferences;
+
     private SearchView sv;
 
     private TabLayout tabLayout;
@@ -64,7 +69,7 @@ public class ListFragment extends Fragment {
 
     private NewsVM newsVM;
 
-    private static final String[] categories = {"Business", "Health", "Food", "Entertainment", "Style", "Travel", "Sports" };
+    private static final String[] categories = {"Business", "Health", "Food", "Entertainment", "Style", "Travel", "Sports"};
 
     public ListFragment() {
     }
@@ -89,30 +94,31 @@ public class ListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preferences = getContext().getSharedPreferences(DB_PREFERENCE, Context.MODE_PRIVATE);
+
         initViewModel();
         initView();
         initRv();
         initTab();
         initSearchView();
-//        observeData(categories[0]);
-        queryData(categories[tabLayout.getSelectedTabPosition()]);
-        Log.d(TAG, "onViewCreated: " + tabLayout.getSelectedTabPosition());
+        showLoadingScreen();
+        initData();
     }
 
-    private void initViewModel(){
+    private void initViewModel() {
         newsVM = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication())).get(NewsVM.class);
     }
 
-    private void initView(){
+    private void initView() {
         sv = binding.sv;
         tabLayout = binding.tabs;
+        rv = binding.rv;
         progressBar = binding.progressBar;
         flError = binding.flError;
         errorBinding.btnRetry.setOnClickListener(v -> queryData(categories[tabLayout.getSelectedTabPosition()]));
     }
 
-    private void initRv(){
-        rv = binding.rv;
+    private void initRv() {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.hasFixedSize();
         adapter = new NewsAdapter(new ArrayList<>());
@@ -120,28 +126,27 @@ public class ListFragment extends Fragment {
         adapter.setClickListener(new NewsAdapter.ClickListener() {
             @Override
             public void onItemClicked(Article article) {
-                //TODO go to detail activity
                 Log.d(TAG, "onItemClicked: ");
-                Intent i = new Intent(getActivity(), DetailsActivity.class);
-                startActivity(i);
+                goToDetails(article);
             }
 
             @Override
             public void onDeleteClicked(Article article) {
-                //TODO delete article
                 Log.d(TAG, "onDeleteClicked: ");
+                newsVM.delete(article);
             }
         });
     }
 
-    private void initTab(){
-        for(String str : categories){
+    private void initTab() {
+        for (String str : categories) {
             tabLayout.addTab(tabLayout.newTab().setText(str));
         }
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.d(TAG, "onTabSelected: " + tab.getText());
+                queryData(categories[tabLayout.getSelectedTabPosition()]);
             }
 
             @Override
@@ -156,7 +161,7 @@ public class ListFragment extends Fragment {
         });
     }
 
-    private void initSearchView(){
+    private void initSearchView() {
         SearchManager sm = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         sv.setSearchableInfo(sm.getSearchableInfo(getActivity().getComponentName()));
         sv.setIconifiedByDefault(true);
@@ -177,9 +182,24 @@ public class ListFragment extends Fragment {
         });
     }
 
-    private void observeData(String category){
+    private void initData() {
+        if (preferences.getBoolean(DB_FILLED, false)) { // have data
+            Log.d(TAG, "initData: have data");
+            observeData(categories[tabLayout.getSelectedTabPosition()]);
+        } else { // no data
+            Log.d(TAG, "initData: no data");
+            queryData(categories[tabLayout.getSelectedTabPosition()]);
+            preferences.edit().putBoolean(DB_FILLED, true).apply();
+        }
+
+    }
+
+    private void observeData(String category) {
         newsVM.getNews(category).removeObservers(getViewLifecycleOwner());
-        Observer<List<Article>> observer = articles -> adapter.setItems(articles);
+        Observer<List<Article>> observer = articles -> {
+            adapter.setItems(articles);
+            showNews();
+        };
         newsVM.getNews(category).observe(getViewLifecycleOwner(), observer);
 //        newsVM.getNews(category).observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
 //            @Override
@@ -201,34 +221,38 @@ public class ListFragment extends Fragment {
                     @Override
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                         List<Article> articles = NewsResponseMapper.transform(response.body(), query);
-                        if(articles.isEmpty()){
-                            showError();
-                        } else{
-                            newsVM.insertAll(articles);
-                            showNews();
-                        }
+                        if (articles.isEmpty()) showError();
+                        else newsVM.insertAll(articles);
+
                     }
 
                     @Override
                     public void onFailure(Call<NewsResponse> call, Throwable t) {
-
+                        showError();
+                        preferences.edit().remove(DB_FILLED).apply();
                     }
                 });
     }
 
-    private void showLoadingScreen(){
+    private void goToDetails(Article article) {
+        Intent i = new Intent(getActivity(), DetailsActivity.class);
+        //TODO add extras
+        startActivity(i);
+    }
+
+    private void showLoadingScreen() {
         flError.setVisibility(View.GONE);
         rv.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    private void showNews(){
+    private void showNews() {
         flError.setVisibility(View.GONE);
         rv.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
 
-    private void showError(){
+    private void showError() {
         flError.setVisibility(View.VISIBLE);
         rv.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);

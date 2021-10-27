@@ -9,4 +9,8 @@ public class Constants {
 
     public static final String API_KEY = "505815adde3548848665934d7be869f7";
 
+    public static final String DB_PREFERENCE = "com.project.newsapp.SessionManagerUtil.DB_PREFERENCE";
+
+    public static final String DB_FILLED = "database_filled";
+
 }

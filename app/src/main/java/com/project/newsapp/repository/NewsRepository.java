@@ -14,21 +14,33 @@ public class NewsRepository {
     private NewsDao newsDao;
     private LiveData<List<Article>> articles;
 
-    public NewsRepository(Application app){
+    public NewsRepository(Application app) {
         AppDB db = AppDB.getInstance(app);
 
         newsDao = db.newsDao();
     }
 
-    public LiveData<List<Article>> getNews(String category){
+    public LiveData<List<Article>> getNews() {
+        return newsDao.getNews();
+    }
+
+    public LiveData<List<Article>> getNews(String category) {
         return newsDao.getNews(category);
     }
 
-    public void insertAll(List<Article> articles){
+    public void insertAll(List<Article> articles) {
         AppDB.databaseWriteExecutor.execute(() -> newsDao.insertAll(articles));
     }
 
-    public void delete(Article article){
+    public void delete(Article article) {
         AppDB.databaseWriteExecutor.execute(() -> newsDao.delete(article));
+    }
+
+    public void deleteCategory(String category) {
+        AppDB.databaseWriteExecutor.execute(() -> newsDao.deleteCategory(category));
+    }
+
+    public void deleteAll() {
+        AppDB.databaseWriteExecutor.execute(() -> newsDao.deleteAll());
     }
 }

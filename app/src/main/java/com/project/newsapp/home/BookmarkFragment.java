@@ -1,66 +1,164 @@
 package com.project.newsapp.home;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.SearchView;
 
+import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.project.newsapp.DetailsActivity;
 import com.project.newsapp.R;
+import com.project.newsapp.databinding.FragmentBookmarkBinding;
+import com.project.newsapp.model.Article;
+import com.project.newsapp.viewmodel.NewsVM;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link BookmarkFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class BookmarkFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentBookmarkBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private SearchView sv;
+
+    private RecyclerView rv;
+
+    private CircularProgressIndicator progressBar;
+
+    private FrameLayout flEmpty;
+
+    private NewsAdapter adapter;
+
+    private NewsVM newsVM;
 
     public BookmarkFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookmarkFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BookmarkFragment newInstance(String param1, String param2) {
-        BookmarkFragment fragment = new BookmarkFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static BookmarkFragment newInstance() {
+        return new BookmarkFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookmark, container, false);
+        binding = FragmentBookmarkBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViewModel();
+        initView();
+        initRv();
+        initSearchView();
+        showLoadingScreen();
+        initData();
+    }
+
+    private void initViewModel(){
+        newsVM = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication())).get(NewsVM.class);
+    }
+
+    private void initView(){
+        sv = binding.sv;
+        rv = binding.rv;
+        progressBar = binding.progressBar;
+        flEmpty = binding.flEmpty;
+    }
+
+    private void initRv(){
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv.hasFixedSize();
+        adapter = new NewsAdapter(new ArrayList<>());
+        rv.setAdapter(adapter);
+        adapter.setClickListener(new NewsAdapter.ClickListener() {
+            @Override
+            public void onItemClicked(Article article) {
+                goToDetails(article);
+            }
+
+            @Override
+            public void onDeleteClicked(Article article) {
+
+            }
+        });
+    }
+
+    private void initSearchView(){
+        SearchManager sm = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        sv.setSearchableInfo(sm.getSearchableInfo(getActivity().getComponentName()));
+        sv.setIconifiedByDefault(true);
+        sv.setMaxWidth(Integer.MAX_VALUE);
+        sv.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+//                presenter.search(s.toLowerCase());
+                sv.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+//                presenter.search(s.toLowerCase());
+                return false;
+            }
+        });
+    }
+
+    private void initData(){
+        observeData();
+    }
+
+    private void observeData(){
+        Observer<List<Article>> observer = articles -> {
+            adapter.setItems(articles);
+            if(articles.isEmpty()) showLayoutEmpty();
+            else showNews();
+        };
+        newsVM.getNews().observe(getViewLifecycleOwner(), observer);
+    }
+
+    private void goToDetails(Article article){
+        Intent i = new Intent(getActivity(), DetailsActivity.class);
+        //TODO add extras
+        startActivity(i);
+    }
+
+    private void showLoadingScreen(){
+        rv.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showNews(){
+        rv.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void showLayoutEmpty(){
+        rv.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+        flEmpty.setVisibility(View.VISIBLE);
     }
 }

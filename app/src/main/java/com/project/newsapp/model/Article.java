@@ -1,13 +1,14 @@
 package com.project.newsapp.model;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "article_table")
+@Entity(tableName = "article_table", indices = {@Index(value = "url", unique = true)})
 public class Article {
 
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+//    @PrimaryKey(autoGenerate = true)
+//    private long id;
 
     private String category;
 
@@ -21,6 +22,7 @@ public class Article {
 
     private String description;
 
+    @PrimaryKey
     private String url;
 
     private String urlToImage;
@@ -28,6 +30,8 @@ public class Article {
     private String publishedAt;
 
     private String content;
+
+    private boolean bookmark;
 
     public Article(String sourceId, String sourceName, String author, String title, String description, String url, String urlToImage, String publishedAt, String content, String category) {
         this.sourceId = sourceId;
@@ -40,11 +44,12 @@ public class Article {
         this.publishedAt = publishedAt;
         this.content = content;
         this.category = category;
+        this.bookmark = false;
     }
 
-    public long getId() {
-        return id;
-    }
+//    public long getId() {
+//        return id;
+//    }
 
     public String getSourceId() {
         return sourceId;
@@ -86,9 +91,13 @@ public class Article {
         return category;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public boolean getBookmark() {
+        return bookmark;
     }
+
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public void setCategory(String category) {
         this.category = category;
@@ -128,5 +137,9 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setBookmark(boolean bookmark){
+        this.bookmark = bookmark;
     }
 }

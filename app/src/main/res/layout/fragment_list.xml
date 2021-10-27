@@ -20,11 +20,11 @@
         app:tabGravity="fill"
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@android:color/holo_green_light"
+        app:tabIndicatorHeight="0dp"
         android:background="#DCE1E1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/rv"
         app:layout_constraintTop_toBottomOf="@id/sv" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -62,6 +62,5 @@
             layout="@layout/layout_error"/>
 
     </FrameLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

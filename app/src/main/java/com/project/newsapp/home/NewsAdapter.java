@@ -78,7 +78,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             long diffMin = TimeUnit.MINUTES.convert(mlDiff, TimeUnit.MILLISECONDS);
 
             if(diffDay > 0) return diffDay + " days ago";
-            else if(diffHour > 0) return diffDay + " hours ago";
+            else if(diffHour > 0) return diffHour + " hours ago";
             else if(diffMin > 0) return diffMin + " minutes ago";
 
         } catch (ParseException e) {

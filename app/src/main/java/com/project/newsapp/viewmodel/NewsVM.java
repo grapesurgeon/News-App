@@ -30,6 +30,10 @@ public class NewsVM extends AndroidViewModel {
         return retrofitInstance;
     }
 
+    public LiveData<List<Article>> getNews(){
+        return newsRepo.getNews();
+    }
+
     public LiveData<List<Article>> getNews(String category){
         return newsRepo.getNews(category);
     }
@@ -40,5 +44,13 @@ public class NewsVM extends AndroidViewModel {
 
     public void delete(Article article){
         newsRepo.delete(article);
+    }
+
+    public void deleteCategory(String category) {
+        newsRepo.deleteCategory(category);
+    }
+
+    public void deleteAll(){
+        newsRepo.deleteAll();
     }
 }
