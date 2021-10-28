@@ -225,7 +225,7 @@ public class ListFragment extends Fragment {
         observeData(query);
         newsVM.getRetrofitInstance()
                 .getNewsApi()
-                .getNews(query, sort, API_KEY)
+                .getNews(query, sort, API_KEY, 50)
                 .enqueue(new Callback<NewsResponse>() {
                     @Override
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {

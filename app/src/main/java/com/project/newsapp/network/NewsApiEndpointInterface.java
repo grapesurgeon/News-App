@@ -13,6 +13,7 @@ public interface NewsApiEndpointInterface {
     @GET("everything")
     Call<NewsResponse> getNews(@Query("q") String query,
                                @Query("sortBy") String sort,
-                               @Query("apiKey") String apiKey);
+                               @Query("apiKey") String apiKey,
+                               @Query("pageSize") int pageSize);
 
 }

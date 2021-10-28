@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.project.newsapp.R;
 import com.project.newsapp.model.Article;
 
@@ -43,6 +44,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 //        holder.iv.setImageBitmap(); //TODO get from url
+        Glide.with(holder.iv.getContext())
+                .load(articles.get(position).getUrlToImage())
+                .into(holder.iv);
         holder.title.setText(articles.get(position).getTitle());
         holder.time.setText(getTime(articles.get(position).getPublishedAt()));
     }

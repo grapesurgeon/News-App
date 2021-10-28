@@ -1,5 +1,6 @@
 package com.project.newsapp.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -25,6 +26,7 @@ public class Article implements Serializable {
     private String description;
 
     @PrimaryKey
+    @NonNull
     private String url;
 
     private String urlToImage;
