@@ -5,7 +5,6 @@
     <item
         android:id="@+id/clear"
         android:title="Clear All"
-        app:showAsAction="ifRoom"
-        app:actionViewClass="android.widget.Button" />
+        app:showAsAction="ifRoom|withText"/>
 
 </menu>

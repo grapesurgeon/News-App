@@ -72,6 +72,7 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+
     private void initData(){
         Intent i = getIntent();
         email = i.getStringExtra(EXTRA_EMAIL);

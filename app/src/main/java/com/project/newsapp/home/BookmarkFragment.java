@@ -88,25 +88,26 @@ public class BookmarkFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.clear){
-            showClearDialog();
-            return true;
+        switch (item.getItemId()){
+            case R.id.clear:
+                showClearDialog();
+                return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
-    private void initViewModel(){
-        newsVM = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication())).get(NewsVM.class);
+    private void initViewModel() {
+        newsVM = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(NewsVM.class);
     }
 
-    private void initView(){
+    private void initView() {
         sv = binding.sv;
         rv = binding.rv;
         progressBar = binding.progressBar;
         flEmpty = binding.flEmpty;
     }
 
-    private void initRv(){
+    private void initRv() {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.hasFixedSize();
         adapter = new NewsAdapter(new ArrayList<>());
@@ -119,7 +120,7 @@ public class BookmarkFragment extends Fragment {
 
             @Override
             public void onDeleteClicked(Article article) {
-
+                newsVM.delete(article);
             }
         });
     }
@@ -145,58 +146,58 @@ public class BookmarkFragment extends Fragment {
 //        });
 //    }
 
-    private void initData(){
+    private void initData() {
         observeData();
     }
 
     private void observeData() {
-        removeObservers(null);
+        newsVM.getNews().removeObservers(getViewLifecycleOwner());
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
-            if(articles.isEmpty()) showLayoutEmpty();
+            if (articles.isEmpty()) showLayoutEmpty();
             else showNews();
         };
         newsVM.getNews().observe(getViewLifecycleOwner(), observer);
     }
 
-    private void observeSearchData(String s){
-        removeObservers(s);
-        Observer<List<Article>> observer = articles -> {
-            adapter.setItems(articles);
-            showNews();
-        };
-        newsVM.getNews(s).observe(getViewLifecycleOwner(), observer);
-    }
+//    private void observeSearchData(String s){
+//        removeObservers(s);
+//        Observer<List<Article>> observer = articles -> {
+//            adapter.setItems(articles);
+//            showNews();
+//        };
+//        newsVM.getNews(s).observe(getViewLifecycleOwner(), observer);
+//    }
 
-    private void removeObservers(String s){
+    private void removeObservers(String s) {
         newsVM.getNews().removeObservers(getViewLifecycleOwner());
-        newsVM.getNews(s).removeObservers(getViewLifecycleOwner());
+//        newsVM.getNews(s).removeObservers(getViewLifecycleOwner());
     }
 
 
-    private void goToDetails(Article article){
+    private void goToDetails(Article article) {
         Intent i = new Intent(getActivity(), DetailsActivity.class);
         i.putExtra(EXTRA_ARTICLE, article);
         startActivity(i);
     }
 
-    private void showLoadingScreen(){
+    private void showLoadingScreen() {
         rv.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
-    private void showNews(){
+    private void showNews() {
         rv.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.GONE);
     }
 
-    private void showLayoutEmpty(){
+    private void showLayoutEmpty() {
         rv.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         flEmpty.setVisibility(View.VISIBLE);
     }
 
-    private void showClearDialog(){
+    private void showClearDialog() {
         new AlertDialog.Builder(getContext())
                 .setTitle("Clear All")
                 .setMessage("All bookmarks will be removed")

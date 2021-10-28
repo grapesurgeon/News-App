@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 
@@ -34,6 +36,7 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 import com.project.newsapp.DetailsActivity;
 import com.project.newsapp.LoginActivity;
+import com.project.newsapp.R;
 import com.project.newsapp.databinding.FragmentListBinding;
 import com.project.newsapp.databinding.LayoutErrorBinding;
 import com.project.newsapp.model.Article;
@@ -83,6 +86,7 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -91,6 +95,12 @@ public class ListFragment extends Fragment {
         binding = FragmentListBinding.inflate(inflater, container, false);
         errorBinding = binding.flContent;
         return binding.getRoot();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+        MenuItem item = menu.findItem(R.id.clear);
+        if(item != null) item.setVisible(false);
     }
 
     @Override
@@ -108,7 +118,7 @@ public class ListFragment extends Fragment {
     }
 
     private void initViewModel() {
-        newsVM = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getActivity().getApplication())).get(NewsVM.class);
+        newsVM = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(NewsVM.class);
     }
 
     private void initView() {
@@ -225,7 +235,7 @@ public class ListFragment extends Fragment {
         observeData(query);
         newsVM.getRetrofitInstance()
                 .getNewsApi()
-                .getNews(query, sort, API_KEY, 50)
+                .getNews(query, sort, API_KEY, 20)
                 .enqueue(new Callback<NewsResponse>() {
                     @Override
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
