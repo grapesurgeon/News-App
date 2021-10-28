@@ -19,4 +19,6 @@ public class Constants {
 
     public static final String EXTRA_NAME = "extra_name";
 
+    public static final String USER_PREFERENCE = "user_preference";
+
 }

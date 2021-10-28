@@ -13,9 +13,11 @@
         android:theme="@style/Theme.NewsApp">
         <activity
             android:name=".DetailsActivity"
+            android:parentActivityName=".home.HomeActivity"
             android:exported="true" />
         <activity
             android:name=".home.HomeActivity"
+            android:launchMode="singleTop"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"

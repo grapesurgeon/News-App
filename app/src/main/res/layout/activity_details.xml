@@ -45,7 +45,6 @@
                             android:layout_gravity="bottom|right"
                             android:id="@+id/bookmarked"
                             android:background="@color/white"
-                            android:backgroundTint="@color/black"
                             />
 
                         <ImageView

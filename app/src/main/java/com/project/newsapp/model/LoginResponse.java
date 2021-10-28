@@ -28,7 +28,7 @@ public class LoginResponse {
         return token;
     }
 
-    class Data{
+    public class Data{
         private String id;
 
         private String email;

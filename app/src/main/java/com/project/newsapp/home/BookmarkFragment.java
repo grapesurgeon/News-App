@@ -120,7 +120,7 @@ public class BookmarkFragment extends Fragment {
 
             @Override
             public void onDeleteClicked(Article article) {
-                newsVM.delete(article);
+                newsVM.bookmark(article.getUrl());
             }
         });
     }

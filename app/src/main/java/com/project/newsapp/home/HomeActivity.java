@@ -77,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent i = getIntent();
         email = i.getStringExtra(EXTRA_EMAIL);
         name = i.getStringExtra(EXTRA_NAME);
+        Log.d("asdf", "initData: " + name + " / " + email);
     }
 
     private void initView(){
@@ -93,8 +94,10 @@ public class HomeActivity extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString(EXTRA_NAME, name);
                     bundle.putString(EXTRA_EMAIL, email);
+                    Log.d("asdf", "initView: "+ name +" "+ email);
+
                     profileFragment.setArguments(bundle);
-                    initFragment(new ProfileFragment());
+                    initFragment(profileFragment);
                     break;
             }
             return true;

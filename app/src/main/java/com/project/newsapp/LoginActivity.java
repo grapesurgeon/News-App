@@ -1,6 +1,13 @@
 package com.project.newsapp;
 
+import static com.project.newsapp.Constants.EXTRA_ARTICLE;
+import static com.project.newsapp.Constants.EXTRA_EMAIL;
+import static com.project.newsapp.Constants.EXTRA_NAME;
+import static com.project.newsapp.Constants.USER_PREFERENCE;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.project.newsapp.databinding.ActivityLoginBinding;
@@ -30,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
 
     private LoginVM loginVM;
+    private SharedPreferences sp;
+
+    private String name;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         hideTitleBar();
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        loginVM = new ViewModelProvider(this).get(LoginVM.class);
+
+        sp = getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
 
         checkSession();
         btnLoginOnClick();
@@ -62,21 +78,22 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        LoginRequest loginRequest = new LoginRequest(username, password);
+        //LoginRequest loginRequest = new LoginRequest(username, password);
 
         //Always get NullPointer (?)
         try {
         loginVM.getRetrofitInstance()
                 .getUserApi()
-                .login(loginRequest)
+                .login(username, password)
                 .enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.body().getStatus() == "true"){
-                            startAndStoreSession();
-                            startMainActivity();
-                            System.out.println("If true");
-                        }
+                        name = response.body().getData().getFullName();
+                        email = response.body().getData().getEmail();
+                        sp.edit().putString(EXTRA_NAME, name).apply();
+                        sp.edit().putString(EXTRA_EMAIL, email).apply();
+                        startAndStoreSession();
+                        goToHomeActivity();
                     }
 
                     @Override
@@ -90,10 +107,10 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //Delete if NullPointer is Done
-        startAndStoreSession();
-        startMainActivity();
+
     }
 
+    //Add timer
     private void startAndStoreSession(){
         SessionManagerUtil.getInstance()
                 .storeUserToken(getApplicationContext(), generateToken(username, password));
@@ -112,17 +129,23 @@ public class LoginActivity extends AppCompatActivity {
         return token;
     }
 
-    private void startMainActivity(){
-        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
 
     private void checkSession() {
         if (SessionManagerUtil.getInstance().isSessionActive(getApplicationContext(), new Date())){
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            name = sp.getString(EXTRA_NAME, "");
+            email = sp.getString(EXTRA_EMAIL, "");
+            goToHomeActivity();
+
             finish();
-        } //else setContentView(R.layout.activity_login);
+        }
+    }
+
+    private void goToHomeActivity(){
+        Intent i = new Intent(this, HomeActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.putExtra(EXTRA_NAME, name);
+        i.putExtra(EXTRA_EMAIL, email);
+        startActivity(i);
     }
 
     private void hideTitleBar() {
