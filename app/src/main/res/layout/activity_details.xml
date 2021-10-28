@@ -44,16 +44,19 @@
                             android:src="@drawable/ic_baseline_bookmarked"
                             android:layout_gravity="bottom|right"
                             android:id="@+id/bookmarked"
+                            android:background="@color/white"
+                            android:backgroundTint="@color/black"
                             />
 
                         <ImageView
+                            android:id="@+id/not_bookmarked"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:layout_gravity="bottom|right"
                             android:layout_margin="10dp"
                             android:src="@drawable/ic_baseline_bookmark_border_24"
-                            android:layout_gravity="bottom|right"
-                            android:id="@+id/not_bookmarked"
-                            />
+                            android:background="@color/white"                            />
+
 
                     </FrameLayout>
 
@@ -81,10 +84,10 @@
                             android:text="Category"
                             android:textSize="15dp"
                             android:textColor="@color/black"
-                            android:id="@+id/tvSource"/>
+                            android:id="@+id/tvCategory"/>
 
                         <TextView
-                            android:id="@+id/tvDate"
+                            android:id="@+id/tvPublishedAt"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"
@@ -97,11 +100,11 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Description"
+                        android:text="Content"
                         android:textSize="15dp"
                         android:padding="10dp"
                         android:textColor="@color/black"
-                        android:id="@+id/tvDesc"/>
+                        android:id="@+id/tvContent"/>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

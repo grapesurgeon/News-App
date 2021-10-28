@@ -9,6 +9,12 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -24,8 +30,6 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_round_logout_24"
-                android:textSize="12dp"
-                android:textStyle="normal"
                 android:layout_gravity="center"
                 />
         </LinearLayout>

@@ -3,17 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/drawable/capsule.xml" value="0.4203125" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_details.xml" value="0.4041666666666667" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_home.xml" value="0.2546875" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_login.xml" value="0.2546875" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/fragment_bookmark.xml" value="0.4041666666666667" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/fragment_list.xml" value="0.4041666666666667" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/fragment_news.xml" value="0.302536231884058" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/item_news.xml" value="1.674342105263158" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/layout_error.xml" value="0.26979166666666665" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/layout/news_item.xml" value="0.4041666666666667" />
-        <entry key="..\:/Users/davez/AndroidStudioProjects/NewsApp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.4041666666666667" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.1" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_bookmarked.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_launcher_avatar_foreground.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_launcher_bookmark_border_foreground.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_launcher_bookmarked_foreground.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/profile_background.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/activity_details.xml" value="0.5808080808080808" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/activity_home.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/activity_login.xml" value="0.10326086956521739" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_list.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_news.xml" value="0.10326086956521739" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_profile.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_profile_toolbar.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/news_item.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/mipmap-anydpi-v26/ic_launcher_bookmark_border.xml" value="0.1" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/mipmap-anydpi-v26/ic_launcher_bookmark_border_round.xml" value="0.1" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/mipmap-anydpi-v26/ic_launcher_bookmarked.xml" value="0.1" />
       </map>
     </option>
   </component>
