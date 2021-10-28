@@ -1,5 +1,7 @@
 package com.project.newsapp.home;
 
+import static com.project.newsapp.Constants.EXTRA_ARTICLE;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,7 +109,7 @@ public class BookmarkFragment extends Fragment {
         });
     }
 
-    private void initSearchView(){
+    private void initSearchView() {
         SearchManager sm = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         sv.setSearchableInfo(sm.getSearchableInfo(getActivity().getComponentName()));
         sv.setIconifiedByDefault(true);
@@ -114,14 +117,14 @@ public class BookmarkFragment extends Fragment {
         sv.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-//                presenter.search(s.toLowerCase());
+                observeSearchData(s);
                 sv.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-//                presenter.search(s.toLowerCase());
+                if(TextUtils.isEmpty(s)) observeData();
                 return false;
             }
         });
@@ -131,18 +134,33 @@ public class BookmarkFragment extends Fragment {
         observeData();
     }
 
-    private void observeData(){
+    private void observeData() {
+        removeObservers(null);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
-            if(articles.isEmpty()) showLayoutEmpty();
-            else showNews();
+            showNews();
         };
         newsVM.getNews().observe(getViewLifecycleOwner(), observer);
     }
 
+    private void observeSearchData(String s){
+        removeObservers(s);
+        Observer<List<Article>> observer = articles -> {
+            adapter.setItems(articles);
+            showNews();
+        };
+        newsVM.getNews(s).observe(getViewLifecycleOwner(), observer);
+    }
+
+    private void removeObservers(String s){
+        newsVM.getNews().removeObservers(getViewLifecycleOwner());
+        newsVM.getNews(s).removeObservers(getViewLifecycleOwner());
+    }
+
+
     private void goToDetails(Article article){
         Intent i = new Intent(getActivity(), DetailsActivity.class);
-        //TODO add extras
+        i.putExtra(EXTRA_ARTICLE, article);
         startActivity(i);
     }
 

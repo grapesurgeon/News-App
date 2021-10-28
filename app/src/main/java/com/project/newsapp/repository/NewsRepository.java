@@ -28,6 +28,10 @@ public class NewsRepository {
         return newsDao.getNews(category);
     }
 
+    public LiveData<List<Article>> getNews(String category, String query) {
+        return newsDao.getNews(category, query);
+    }
+
     public void insertAll(List<Article> articles) {
         AppDB.databaseWriteExecutor.execute(() -> newsDao.insertAll(articles));
     }

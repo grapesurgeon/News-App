@@ -38,6 +38,10 @@ public class NewsVM extends AndroidViewModel {
         return newsRepo.getNews(category);
     }
 
+    public LiveData<List<Article>> getNews(String category, String query){
+        return newsRepo.getNews(category, query);
+    }
+
     public void insertAll(List<Article> articles){
         newsRepo.insertAll(articles);
     }

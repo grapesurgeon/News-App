@@ -13,4 +13,6 @@ public class Constants {
 
     public static final String DB_FILLED = "database_filled";
 
+    public static final String EXTRA_ARTICLE = "extra_article";
+
 }

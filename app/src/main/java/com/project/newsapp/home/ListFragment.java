@@ -3,6 +3,7 @@ package com.project.newsapp.home;
 import static com.project.newsapp.Constants.API_KEY;
 import static com.project.newsapp.Constants.DB_FILLED;
 import static com.project.newsapp.Constants.DB_PREFERENCE;
+import static com.project.newsapp.Constants.EXTRA_ARTICLE;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -11,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
 import android.widget.SearchView;
 
@@ -145,7 +147,6 @@ public class ListFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d(TAG, "onTabSelected: " + tab.getText());
                 queryData(categories[tabLayout.getSelectedTabPosition()]);
             }
 
@@ -169,14 +170,14 @@ public class ListFragment extends Fragment {
         sv.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-//                presenter.search(s.toLowerCase());
+                observeSearchData(categories[tabLayout.getSelectedTabPosition()], s);
                 sv.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-//                presenter.search(s.toLowerCase());
+                if(TextUtils.isEmpty(s)) observeData(categories[tabLayout.getSelectedTabPosition()]);
                 return false;
             }
         });
@@ -195,18 +196,26 @@ public class ListFragment extends Fragment {
     }
 
     private void observeData(String category) {
-        newsVM.getNews(category).removeObservers(getViewLifecycleOwner());
+        removeObservers(category, null);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
             showNews();
         };
         newsVM.getNews(category).observe(getViewLifecycleOwner(), observer);
-//        newsVM.getNews(category).observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
-//            @Override
-//            public void onChanged(List<Article> articles) {
-//                adapter.setItems(articles);
-//            }
-//        });
+    }
+
+    private void observeSearchData(String category, String s){
+        removeObservers(category, s);
+        Observer<List<Article>> observer = articles -> {
+            adapter.setItems(articles);
+            showNews();
+        };
+        newsVM.getNews(category, s).observe(getViewLifecycleOwner(), observer);
+    }
+
+    private void removeObservers(String category, String s){
+        newsVM.getNews(category).removeObservers(getViewLifecycleOwner());
+        newsVM.getNews(category, s).removeObservers(getViewLifecycleOwner());
     }
 
     private void queryData(String query) {
@@ -236,7 +245,7 @@ public class ListFragment extends Fragment {
 
     private void goToDetails(Article article) {
         Intent i = new Intent(getActivity(), DetailsActivity.class);
-        //TODO add extras
+        i.putExtra(EXTRA_ARTICLE, article);
         startActivity(i);
     }
 

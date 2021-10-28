@@ -29,6 +29,9 @@ public interface NewsDao {
     @Query("SELECT * FROM article_table WHERE category = :category")
     LiveData<List<Article>> getNews(String category);
 
+    @Query("SELECT * FROM article_table WHERE category = :category AND title LIKE '%' || :query || '%'")
+    LiveData<List<Article>> getNews(String category, String query);
+
     @Query("DELETE FROM article_table WHERE category = :category AND bookmark = 0")
     void deleteCategory(String category);
 

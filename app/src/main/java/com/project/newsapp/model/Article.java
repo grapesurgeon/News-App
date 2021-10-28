@@ -4,8 +4,10 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "article_table", indices = {@Index(value = "url", unique = true)})
-public class Article {
+public class Article implements Serializable {
 
 //    @PrimaryKey(autoGenerate = true)
 //    private long id;
