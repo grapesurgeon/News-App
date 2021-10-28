@@ -98,6 +98,10 @@ public class LoginResponse {
             return username;
         }
 
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
+        }
+
         public String getFullName() {
             return fullName;
         }

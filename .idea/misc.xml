@@ -3,8 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/activity_details.xml" value="0.12817028985507245" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable-v24/capsule_color.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/capsule.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_bookmarked.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/activity_details.xml" value="0.4025670945157526" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/activity_home.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_bookmark.xml" value="0.12817028985507245" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_list.xml" value="0.11956521739130435" />
         <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_profile.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/fragment_profile_toolbar.xml" value="0.12817028985507245" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/layout/news_item.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/menu/bookmark_menu.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1796875" />
+        <entry key="..\:/Users/nadia/AndroidStudioProjects/News-App/app/src/main/res/menu/profile_menu.xml" value="0.1796875" />
       </map>
     </option>
   </component>

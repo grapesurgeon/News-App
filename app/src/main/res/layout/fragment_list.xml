@@ -19,7 +19,7 @@
         app:tabBackground="@drawable/capsule"
         app:tabGravity="fill"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="@android:color/holo_green_light"
+        app:tabSelectedTextColor="@color/purple_700"
         app:tabIndicatorHeight="0dp"
         android:background="#DCE1E1"
         android:layout_width="match_parent"

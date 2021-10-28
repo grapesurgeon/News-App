@@ -13,6 +13,7 @@
         android:theme="@style/Theme.NewsApp">
         <activity
             android:name=".DetailsActivity"
+            android:label="Detail"
             android:parentActivityName=".home.HomeActivity"
             android:exported="true" />
         <activity

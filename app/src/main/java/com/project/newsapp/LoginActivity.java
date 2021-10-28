@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String name;
     private String email;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
 
         checkSession();
         btnLoginOnClick();
+
+        //Logic Remember Me belum ada
+        binding.rememberMeCheckBox.setVisibility(View.GONE);
 
     }
 
@@ -78,9 +82,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        //LoginRequest loginRequest = new LoginRequest(username, password);
-
-        //Always get NullPointer (?)
         try {
         loginVM.getRetrofitInstance()
                 .getUserApi()
@@ -88,54 +89,48 @@ public class LoginActivity extends AppCompatActivity {
                 .enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        name = response.body().getData().getFullName();
-                        email = response.body().getData().getEmail();
-                        sp.edit().putString(EXTRA_NAME, name).apply();
-                        sp.edit().putString(EXTRA_EMAIL, email).apply();
-                        startAndStoreSession();
-                        goToHomeActivity();
+                        if (response.isSuccessful()){
+                            name = response.body().getData().getFullName();
+                            email = response.body().getData().getEmail();
+                            sp.edit().putString(EXTRA_NAME, name).apply();
+                            sp.edit().putString(EXTRA_EMAIL, email).apply();
+                            token = response.body().getToken();
+                            startAndStoreSession(token);
+                            goToHomeActivity();
+                        }
+                        else {
+                            Log.d("asdf", "onResponse: false");
+                            binding.editUsername.getEditText().setText("");
+                            binding.editPassword.getEditText().setText("");
+                            Toast.makeText(getApplicationContext(), "User and Password not match", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                     }
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+                        Log.d("asdf", "onFailure: false");
                     }
                 });
         }
         catch(NullPointerException e) {
             System.out.println("NullPointerException thrown!");
         }
-
-        //Delete if NullPointer is Done
-
     }
 
-    //Add timer
-    private void startAndStoreSession(){
+    private void startAndStoreSession(String token){
         SessionManagerUtil.getInstance()
-                .storeUserToken(getApplicationContext(), generateToken(username, password));
+                .storeUserToken(getApplicationContext(), token);
         SessionManagerUtil.getInstance()
-                .startUserSession(getApplicationContext(), 10);
+                .startUserSession(getApplicationContext(), 30);
     }
-
-    private String generateToken(String username, String password){
-        String feeds = username+":"+password;
-        String token = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            token = Base64.getEncoder().encodeToString(feeds.getBytes());
-        } else {
-            token = feeds;
-        }
-        return token;
-    }
-
 
     private void checkSession() {
         if (SessionManagerUtil.getInstance().isSessionActive(getApplicationContext(), new Date())){
             name = sp.getString(EXTRA_NAME, "");
             email = sp.getString(EXTRA_EMAIL, "");
             goToHomeActivity();
-
             finish();
         }
     }
