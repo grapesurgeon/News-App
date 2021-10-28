@@ -38,6 +38,8 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvContent.setText(article.getContent());
         binding.tvCategory.setText(article.getCategory());
         binding.tvPublishedAt.setText(article.getPublishedAt());
+
+
         binding.bookmarked.setVisibility(View.INVISIBLE);
 
     }
