@@ -1,14 +1,18 @@
 package com.project.newsapp.home;
 
 import static com.project.newsapp.Constants.API_KEY;
+import static com.project.newsapp.Constants.EXTRA_EMAIL;
+import static com.project.newsapp.Constants.EXTRA_NAME;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationBarView;
@@ -27,6 +31,10 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
 
     private NewsVM newsVM;
+
+    private String name;
+
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +61,21 @@ public class HomeActivity extends AppCompatActivity {
 //                    }
 //                });
 
+        initData();
         initFragment(new ListFragment());
         initView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.bookmark_menu, menu);
+        return true;
+    }
+
+    private void initData(){
+        Intent i = getIntent();
+        email = i.getStringExtra(EXTRA_EMAIL);
+        name = i.getStringExtra(EXTRA_NAME);
     }
 
     private void initView(){
@@ -67,6 +88,11 @@ public class HomeActivity extends AppCompatActivity {
                     initFragment(new BookmarkFragment());
                     break;
                 case R.id.page_3:
+                    ProfileFragment profileFragment = new ProfileFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(EXTRA_NAME, name);
+                    bundle.putString(EXTRA_EMAIL, email);
+                    profileFragment.setArguments(bundle);
                     initFragment(new ProfileFragment());
                     break;
             }

@@ -47,4 +47,12 @@ public class NewsRepository {
     public void deleteAll() {
         AppDB.databaseWriteExecutor.execute(() -> newsDao.deleteAll());
     }
+
+    public void bookmark(String url){
+        AppDB.databaseWriteExecutor.execute(() -> newsDao.bookmark(url));
+    }
+
+    public void clear(){
+        AppDB.databaseWriteExecutor.execute(() -> newsDao.clear());
+    }
 }

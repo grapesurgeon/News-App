@@ -2,8 +2,10 @@ package com.project.newsapp.home;
 
 import static com.project.newsapp.Constants.EXTRA_ARTICLE;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -18,6 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -60,6 +65,7 @@ public class BookmarkFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -75,9 +81,18 @@ public class BookmarkFragment extends Fragment {
         initViewModel();
         initView();
         initRv();
-        initSearchView();
+//        initSearchView();
         showLoadingScreen();
         initData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.clear){
+            showClearDialog();
+            return true;
+        }
+        return false;
     }
 
     private void initViewModel(){
@@ -109,26 +124,26 @@ public class BookmarkFragment extends Fragment {
         });
     }
 
-    private void initSearchView() {
-        SearchManager sm = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        sv.setSearchableInfo(sm.getSearchableInfo(getActivity().getComponentName()));
-        sv.setIconifiedByDefault(true);
-        sv.setMaxWidth(Integer.MAX_VALUE);
-        sv.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                observeSearchData(s);
-                sv.clearFocus();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                if(TextUtils.isEmpty(s)) observeData();
-                return false;
-            }
-        });
-    }
+//    private void initSearchView() {
+//        SearchManager sm = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+//        sv.setSearchableInfo(sm.getSearchableInfo(getActivity().getComponentName()));
+//        sv.setIconifiedByDefault(true);
+//        sv.setMaxWidth(Integer.MAX_VALUE);
+//        sv.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                observeSearchData(s);
+//                sv.clearFocus();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                if(TextUtils.isEmpty(s)) observeData();
+//                return false;
+//            }
+//        });
+//    }
 
     private void initData(){
         observeData();
@@ -138,7 +153,8 @@ public class BookmarkFragment extends Fragment {
         removeObservers(null);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
-            showNews();
+            if(articles.isEmpty()) showLayoutEmpty();
+            else showNews();
         };
         newsVM.getNews().observe(getViewLifecycleOwner(), observer);
     }
@@ -178,5 +194,14 @@ public class BookmarkFragment extends Fragment {
         rv.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         flEmpty.setVisibility(View.VISIBLE);
+    }
+
+    private void showClearDialog(){
+        new AlertDialog.Builder(getContext())
+                .setTitle("Clear All")
+                .setMessage("All bookmarks will be removed")
+                .setPositiveButton("Proceed", (dialogInterface, i) -> newsVM.clear())
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }

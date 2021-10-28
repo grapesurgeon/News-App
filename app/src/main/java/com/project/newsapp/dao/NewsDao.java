@@ -37,4 +37,10 @@ public interface NewsDao {
 
     @Query("DELETE FROM article_table")
     void deleteAll();
+
+    @Query("UPDATE article_table SET bookmark = NOT bookmark WHERE url = :url")
+    void bookmark(String url);
+
+    @Query("UPDATE article_table SET bookmark = 0 WHERE bookmark = 1")
+    void clear();
 }

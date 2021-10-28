@@ -57,4 +57,12 @@ public class NewsVM extends AndroidViewModel {
     public void deleteAll(){
         newsRepo.deleteAll();
     }
+
+    public void bookmark(String url){
+        newsRepo.bookmark(url);
+    }
+
+    public void clear(){
+        newsRepo.clear();
+    }
 }

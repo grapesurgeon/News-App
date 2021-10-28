@@ -15,4 +15,8 @@ public class Constants {
 
     public static final String EXTRA_ARTICLE = "extra_article";
 
+    public static final String EXTRA_EMAIL = "extra_email";
+
+    public static final String EXTRA_NAME = "extra_name";
+
 }
