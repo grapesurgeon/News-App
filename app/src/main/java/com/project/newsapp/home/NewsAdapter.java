@@ -26,8 +26,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private ClickListener listener;
 
-    public NewsAdapter(List<Article> articles) {
+    boolean isDeleteEnabled;
+
+    public NewsAdapter(List<Article> articles, boolean flag) {
         this.articles = articles;
+        isDeleteEnabled = flag;
     }
 
     public void setClickListener(ClickListener listener){
@@ -109,6 +112,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             ivDelete = v.findViewById(R.id.iv_delete);
             title = v.findViewById(R.id.tv_title);
             time = v.findViewById(R.id.tv_time);
+            if(!isDeleteEnabled) ivDelete.setVisibility(View.GONE);
 
             v.setOnClickListener(view -> {
                 int position = getAdapterPosition();

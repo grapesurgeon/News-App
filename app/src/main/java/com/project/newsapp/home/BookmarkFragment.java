@@ -110,7 +110,7 @@ public class BookmarkFragment extends Fragment {
     private void initRv() {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.hasFixedSize();
-        adapter = new NewsAdapter(new ArrayList<>());
+        adapter = new NewsAdapter(new ArrayList<>(), true);
         rv.setAdapter(adapter);
         adapter.setClickListener(new NewsAdapter.ClickListener() {
             @Override

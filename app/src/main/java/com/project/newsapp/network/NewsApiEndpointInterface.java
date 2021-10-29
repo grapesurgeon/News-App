@@ -14,6 +14,7 @@ public interface NewsApiEndpointInterface {
     Call<NewsResponse> getNews(@Query("q") String query,
                                @Query("sortBy") String sort,
                                @Query("apiKey") String apiKey,
-                               @Query("pageSize") int pageSize);
+                               @Query("pageSize") int pageSize,
+                               @Query("language") String lang);
 
 }

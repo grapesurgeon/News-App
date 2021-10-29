@@ -113,7 +113,7 @@ public class ListFragment extends Fragment {
         initRv();
         initTab();
         initSearchView();
-        showLoadingScreen();
+//        showLoadingScreen();
         initData();
     }
 
@@ -133,7 +133,7 @@ public class ListFragment extends Fragment {
     private void initRv() {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.hasFixedSize();
-        adapter = new NewsAdapter(new ArrayList<>());
+        adapter = new NewsAdapter(new ArrayList<>(), false);
         rv.setAdapter(adapter);
         adapter.setClickListener(new NewsAdapter.ClickListener() {
             @Override
@@ -162,12 +162,12 @@ public class ListFragment extends Fragment {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                removeObservers(categories[tabLayout.getSelectedTabPosition()], sv.getQuery().toString());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                queryData(categories[tabLayout.getSelectedTabPosition()]);
             }
         });
     }
@@ -175,7 +175,7 @@ public class ListFragment extends Fragment {
     private void initSearchView() {
         SearchManager sm = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         sv.setSearchableInfo(sm.getSearchableInfo(getActivity().getComponentName()));
-        sv.setIconifiedByDefault(true);
+        sv.setIconifiedByDefault(false);
         sv.setMaxWidth(Integer.MAX_VALUE);
         sv.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
@@ -194,14 +194,14 @@ public class ListFragment extends Fragment {
     }
 
     private void initData() {
-        if (preferences.getBoolean(DB_FILLED, false)) { // have data
-            Log.d(TAG, "initData: have data");
-            observeData(categories[tabLayout.getSelectedTabPosition()]);
-        } else { // no data
-            Log.d(TAG, "initData: no data");
+//        if (preferences.getBoolean(DB_FILLED, false)) { // have data
+//            Log.d(TAG, "initData: have data");
+//            observeData(categories[tabLayout.getSelectedTabPosition()]);
+//        } else { // no data
+//            Log.d(TAG, "initData: no data");
             queryData(categories[tabLayout.getSelectedTabPosition()]);
             preferences.edit().putBoolean(DB_FILLED, true).apply();
-        }
+//        }
 
     }
 
@@ -231,11 +231,11 @@ public class ListFragment extends Fragment {
     private void queryData(String query) {
         showLoadingScreen();
 
-        String sort = "publishedAt"; // popularity, relevancy, popularity
+        String sort = "popularity"; // popularity, relevancy, popularity
         observeData(query);
         newsVM.getRetrofitInstance()
                 .getNewsApi()
-                .getNews(query, sort, API_KEY, 20)
+                .getNews(query, sort, API_KEY, 20, "en")
                 .enqueue(new Callback<NewsResponse>() {
                     @Override
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
