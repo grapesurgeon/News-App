@@ -138,14 +138,11 @@ public class ListFragment extends Fragment {
         adapter.setClickListener(new NewsAdapter.ClickListener() {
             @Override
             public void onItemClicked(Article article) {
-                Log.d(TAG, "onItemClicked: ");
                 goToDetails(article);
             }
 
             @Override
             public void onDeleteClicked(Article article) {
-                Log.d(TAG, "onDeleteClicked: ");
-                newsVM.delete(article);
             }
         });
     }
@@ -157,16 +154,22 @@ public class ListFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabSelected: ");
+                clearSearch();
                 queryData(categories[tabLayout.getSelectedTabPosition()]);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabUnselected: ");
+                clearSearch();
                 removeObservers(categories[tabLayout.getSelectedTabPosition()], sv.getQuery().toString());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+                Log.d(TAG, "onTabReselected: ");
+                clearSearch();
                 queryData(categories[tabLayout.getSelectedTabPosition()]);
             }
         });
@@ -187,10 +190,16 @@ public class ListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                Log.d(TAG, "onQueryTextChange: observe");
                 if(TextUtils.isEmpty(s)) observeData(categories[tabLayout.getSelectedTabPosition()]);
                 return false;
             }
         });
+    }
+
+    private void clearSearch(){
+        sv.setQuery("", false);
+        sv.clearFocus();
     }
 
     private void initData() {
@@ -206,19 +215,23 @@ public class ListFragment extends Fragment {
     }
 
     private void observeData(String category) {
-        removeObservers(category, null);
+//        removeObservers(category, null);
+        Log.d(TAG, "observeData: " + category);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
-            showNews();
+            if(articles.isEmpty()) showError();
+            else showNews();
         };
         newsVM.getNews(category).observe(getViewLifecycleOwner(), observer);
     }
 
     private void observeSearchData(String category, String s){
-        removeObservers(category, s);
+//        removeObservers(category, s);
+        Log.d(TAG, "observeSearchData: " + category);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
-            showNews();
+            if(articles.isEmpty()) showError();
+            else showNews();
         };
         newsVM.getNews(category, s).observe(getViewLifecycleOwner(), observer);
     }
@@ -232,6 +245,7 @@ public class ListFragment extends Fragment {
         showLoadingScreen();
 
         String sort = "popularity"; // popularity, relevancy, popularity
+        Log.d(TAG, "queryData: observe");
         observeData(query);
         newsVM.getRetrofitInstance()
                 .getNewsApi()
@@ -240,8 +254,7 @@ public class ListFragment extends Fragment {
                     @Override
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                         List<Article> articles = NewsResponseMapper.transform(response.body(), query);
-                        if (articles.isEmpty()) showError();
-                        else newsVM.insertAll(articles);
+                        newsVM.insertAll(articles);
 
                     }
 
