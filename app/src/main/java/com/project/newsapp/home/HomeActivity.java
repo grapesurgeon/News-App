@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent i = getIntent();
         email = i.getStringExtra(EXTRA_EMAIL);
         name = i.getStringExtra(EXTRA_NAME);
-        Log.d("asdf", "initData: " + name + " / " + email);
+//        Log.d("asdf", "initData: " + name + " / " + email);
     }
 
     private void initView(){

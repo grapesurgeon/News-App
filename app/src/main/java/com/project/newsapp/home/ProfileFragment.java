@@ -17,6 +17,7 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.ContactsContract;
 import android.text.InputType;
@@ -37,6 +38,7 @@ import com.project.newsapp.databinding.FragmentBookmarkBinding;
 import com.project.newsapp.databinding.FragmentProfileBinding;
 import com.project.newsapp.model.Article;
 import com.project.newsapp.model.LoginResponse;
+import com.project.newsapp.viewmodel.NewsVM;
 
 public class ProfileFragment extends Fragment {
 
@@ -48,6 +50,8 @@ public class ProfileFragment extends Fragment {
     private String name;
 
     private String email;
+
+    private NewsVM newsVM;
 
     public ProfileFragment() {
 
@@ -63,6 +67,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         preferences = getContext().getSharedPreferences(PROFILE_PREFERENCE, Context.MODE_PRIVATE);
+        newsVM = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(NewsVM.class);
     }
 
     @Override
@@ -143,6 +148,7 @@ public class ProfileFragment extends Fragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        newsVM.deleteAll();
                         SessionManagerUtil.getInstance().endUserSession(getActivity().getApplicationContext());
                         startActivity(new Intent(getActivity().getApplicationContext(), LoginActivity.class));
                         getActivity().finish();

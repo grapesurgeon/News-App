@@ -42,10 +42,10 @@ public class SessionManagerUtil {
         SharedPreferences preferences = context.getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
         if(preferences.getBoolean(REMEMBER_ME, false)){ //if remember me set expireed to tomorrow
             sessionExpiresAt = getTomorrow();
-            Log.d("asdf", "does not expire : " + sessionExpiresAt);
+//            Log.d("asdf", "does not expire : " + sessionExpiresAt);
         } else {
             sessionExpiresAt = new Date(getExpiryDateFromPreference(context));
-            Log.d("asdf", "expires at: " + sessionExpiresAt);
+//            Log.d("asdf", "expires at: " + sessionExpiresAt);
         }
 
         return !currentTime.after(sessionExpiresAt);

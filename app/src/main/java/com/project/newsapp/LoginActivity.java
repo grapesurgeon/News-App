@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                             goToHomeActivity();
                         }
                         else {
-                            Log.d("asdf", "onResponse: false");
+//                            Log.d("asdf", "onResponse: false");
                             binding.editUsername.getEditText().setText("");
                             binding.editPassword.getEditText().setText("");
                             Toast.makeText(getApplicationContext(), "User and Password not match", Toast.LENGTH_SHORT).show();
@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        Log.d("asdf", "onFailure: false");
+//                        Log.d("asdf", "onFailure: false");
                     }
                 });
         }

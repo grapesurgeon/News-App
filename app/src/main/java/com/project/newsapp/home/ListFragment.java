@@ -156,21 +156,21 @@ public class ListFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d(TAG, "onTabSelected: ");
+//                Log.d(TAG, "onTabSelected: ");
                 clearSearch();
                 queryData(categories[tabLayout.getSelectedTabPosition()]);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Log.d(TAG, "onTabUnselected: ");
+//                Log.d(TAG, "onTabUnselected: ");
                 clearSearch();
                 removeObservers(categories[tabLayout.getSelectedTabPosition()], sv.getQuery().toString());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Log.d(TAG, "onTabReselected: ");
+//                Log.d(TAG, "onTabReselected: ");
                 clearSearch();
                 queryData(categories[tabLayout.getSelectedTabPosition()]);
             }
@@ -193,7 +193,7 @@ public class ListFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 if(!clearSearch && TextUtils.isEmpty(s)) {
-                    Log.d(TAG, "onQueryTextChange: observe");
+//                    Log.d(TAG, "onQueryTextChange: observe");
                     clearSearch = false;
                     observeData(categories[tabLayout.getSelectedTabPosition()]);
                 }
@@ -222,7 +222,7 @@ public class ListFragment extends Fragment {
 
     private void observeData(String category) {
 //        removeObservers(category, null);
-        Log.d(TAG, "observeData: " + category);
+//        Log.d(TAG, "observeData: " + category);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
             if(articles.isEmpty()) showError();
@@ -233,7 +233,7 @@ public class ListFragment extends Fragment {
 
     private void observeSearchData(String category, String s){
 //        removeObservers(category, s);
-        Log.d(TAG, "observeSearchData: " + category);
+//        Log.d(TAG, "observeSearchData: " + category);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
             if(articles.isEmpty()) showError();
