@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.project.newsapp.databinding.ActivityDetailsBinding;
@@ -48,7 +49,9 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvCategory.setText(article.getCategory());
         binding.tvPublishedAt.setText(Util.getTime(article.getPublishedAt()));
         readMoreLink(article);
+
         isBookmarked(article);
+
         shareLink(article);
     }
 
@@ -86,6 +89,8 @@ public class DetailsActivity extends AppCompatActivity {
                     newsVM.bookmark(article.getUrl());
                     binding.bookmarked.setVisibility(View.GONE);
                     binding.notBookmarked.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(), "Remove News from Bookmark List", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             });
         } else{
@@ -97,8 +102,11 @@ public class DetailsActivity extends AppCompatActivity {
                     binding.notBookmarked.setVisibility(View.GONE);
                     binding.bookmarked.setVisibility(View.VISIBLE);
                     newsVM.bookmark(article.getUrl());
+                    Toast.makeText(getApplicationContext(), "Add News to Bookmark List", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             });
+
         }
     }
 }
