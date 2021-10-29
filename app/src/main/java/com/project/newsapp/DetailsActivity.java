@@ -46,7 +46,7 @@ public class DetailsActivity extends AppCompatActivity {
         binding.tvTitle.setText(article.getTitle());
         binding.tvContent.setText(article.getContent());
         binding.tvCategory.setText(article.getCategory());
-        binding.tvPublishedAt.setText(article.getPublishedAt());
+        binding.tvPublishedAt.setText(Util.getTime(article.getPublishedAt()));
         readMoreLink(article);
         isBookmarked(article);
         shareLink(article);

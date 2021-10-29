@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.project.newsapp.R;
+import com.project.newsapp.Util;
 import com.project.newsapp.model.Article;
 
 import java.text.ParseException;
@@ -48,7 +49,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 .load(articles.get(position).getUrlToImage())
                 .into(holder.iv);
         holder.title.setText(articles.get(position).getTitle());
-        holder.time.setText(getTime(articles.get(position).getPublishedAt()));
+        holder.time.setText(Util.getTime(articles.get(position).getPublishedAt()));
     }
 
     @Override

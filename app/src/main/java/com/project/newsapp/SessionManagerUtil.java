@@ -1,7 +1,11 @@
 package com.project.newsapp;
 
+import static com.project.newsapp.Constants.REMEMBER_ME;
+import static com.project.newsapp.Constants.USER_PREFERENCE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -34,8 +38,24 @@ public class SessionManagerUtil {
     }
 
     public boolean isSessionActive(Context context, Date currentTime){
-        Date sessionExpiresAt = new Date(getExpiryDateFromPreference(context));
+        Date sessionExpiresAt;
+        SharedPreferences preferences = context.getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
+        if(preferences.getBoolean(REMEMBER_ME, false)){ //if remember me set expireed to tomorrow
+            sessionExpiresAt = getTomorrow();
+            Log.d("asdf", "does not expire : " + sessionExpiresAt);
+        } else {
+            sessionExpiresAt = new Date(getExpiryDateFromPreference(context));
+            Log.d("asdf", "expires at: " + sessionExpiresAt);
+        }
+
         return !currentTime.after(sessionExpiresAt);
+    }
+
+    private Date getTomorrow(){
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, 1);
+        return c.getTime();
     }
 
     private long getExpiryDateFromPreference(Context context){

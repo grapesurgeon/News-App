@@ -3,6 +3,7 @@ package com.project.newsapp;
 import static com.project.newsapp.Constants.EXTRA_ARTICLE;
 import static com.project.newsapp.Constants.EXTRA_EMAIL;
 import static com.project.newsapp.Constants.EXTRA_NAME;
+import static com.project.newsapp.Constants.REMEMBER_ME;
 import static com.project.newsapp.Constants.USER_PREFERENCE;
 
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,9 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         checkSession();
         btnLoginOnClick();
 
-        //Logic Remember Me belum ada
-        binding.rememberMeCheckBox.setVisibility(View.GONE);
-
     }
 
     private void btnLoginOnClick() {
@@ -68,6 +67,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 validate();
+                if(binding.rememberMeCheckBox.isChecked()){
+                    sp.edit().putBoolean(REMEMBER_ME, true);
+                }
             }
         });
     }
@@ -123,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
         SessionManagerUtil.getInstance()
                 .storeUserToken(getApplicationContext(), token);
         SessionManagerUtil.getInstance()
-                .startUserSession(getApplicationContext(), 30);
+                .startUserSession(getApplicationContext(), 86400); //1 hari
     }
 
     private void checkSession() {

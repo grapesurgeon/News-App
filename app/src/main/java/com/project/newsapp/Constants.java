@@ -21,4 +21,8 @@ public class Constants {
 
     public static final String USER_PREFERENCE = "user_preference";
 
+    public static final String PROFILE_PREFERENCE = "com.project.newsapp.SessionManagerUtil.PROFILE_PREFERENCE";
+
+    public static final String REMEMBER_ME = "REMEMBER_ME";
+
 }
