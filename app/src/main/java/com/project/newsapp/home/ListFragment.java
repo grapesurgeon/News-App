@@ -200,6 +200,15 @@ public class ListFragment extends Fragment {
                 return false;
             }
         });
+        sv.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                clearSearch();
+                removeObservers(categories[tabLayout.getSelectedTabPosition()], sv.getQuery().toString());
+                observeData(categories[tabLayout.getSelectedTabPosition()]);
+                return false;
+            }
+        });
     }
 
     private void clearSearch(){
@@ -225,8 +234,8 @@ public class ListFragment extends Fragment {
 //        Log.d(TAG, "observeData: " + category);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
-            if(articles.isEmpty()) showError();
-            else showNews();
+//            if(articles.isEmpty()) showError();
+            showNews();
         };
         newsVM.getNews(category).observe(getViewLifecycleOwner(), observer);
     }
@@ -236,8 +245,8 @@ public class ListFragment extends Fragment {
 //        Log.d(TAG, "observeSearchData: " + category);
         Observer<List<Article>> observer = articles -> {
             adapter.setItems(articles);
-            if(articles.isEmpty()) showError();
-            else showNews();
+//            if(articles.isEmpty()) showError();
+            showNews();
         };
         newsVM.getNews(category, s).observe(getViewLifecycleOwner(), observer);
     }

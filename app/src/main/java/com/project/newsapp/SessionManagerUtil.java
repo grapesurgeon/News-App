@@ -16,6 +16,8 @@ public class SessionManagerUtil {
     public static final String SESSION_TOKEN = "com.example.basicandroid.SessionManagerUtil.SESSION_TOKEN";
     public static final String SESSION_EXPIRY_TIME = "com.example.basicandroid.SessionManagerUtil.SESSION_EXPIRY_TIME";
 
+    private SharedPreferences preferences;
+
     private static SessionManagerUtil INSTANCE;
     public static SessionManagerUtil getInstance(){
         if (INSTANCE == null){
@@ -39,7 +41,7 @@ public class SessionManagerUtil {
 
     public boolean isSessionActive(Context context, Date currentTime){
         Date sessionExpiresAt;
-        SharedPreferences preferences = context.getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
         if(preferences.getBoolean(REMEMBER_ME, false)){ //if remember me set expireed to tomorrow
             sessionExpiresAt = getTomorrow();
 //            Log.d("asdf", "does not expire : " + sessionExpiresAt);
@@ -84,6 +86,9 @@ public class SessionManagerUtil {
                 context.getSharedPreferences(SESSION_PREFERENCE, Context.MODE_PRIVATE).edit();
         editor.clear();
         editor.apply();
+
+        preferences = context.getSharedPreferences(USER_PREFERENCE, Context.MODE_PRIVATE);
+        preferences.edit().putBoolean(REMEMBER_ME, false).apply();
     }
 
 }

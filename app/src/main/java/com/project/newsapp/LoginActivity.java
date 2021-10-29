@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 validate();
                 if(binding.rememberMeCheckBox.isChecked()){
-                    sp.edit().putBoolean(REMEMBER_ME, true);
+                    sp.edit().putBoolean(REMEMBER_ME, true).apply();
                 }
             }
         });

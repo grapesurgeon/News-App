@@ -120,7 +120,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 binding.textProfileName.setText(input.getText());
                 //Value after edit not permanent
-                preferences.edit().putString(EXTRA_NAME, input.getText().toString());
+                preferences.edit().putString(EXTRA_NAME, input.getText().toString()).apply();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
