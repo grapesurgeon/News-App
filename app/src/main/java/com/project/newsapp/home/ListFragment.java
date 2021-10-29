@@ -74,6 +74,8 @@ public class ListFragment extends Fragment {
 
     private NewsVM newsVM;
 
+    private boolean clearSearch = false;
+
     private static final String[] categories = {"Business", "Health", "Food", "Entertainment", "Style", "Travel", "Sports"};
 
     public ListFragment() {
@@ -190,14 +192,18 @@ public class ListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d(TAG, "onQueryTextChange: observe");
-                if(TextUtils.isEmpty(s)) observeData(categories[tabLayout.getSelectedTabPosition()]);
+                if(!clearSearch && TextUtils.isEmpty(s)) {
+                    Log.d(TAG, "onQueryTextChange: observe");
+                    clearSearch = false;
+                    observeData(categories[tabLayout.getSelectedTabPosition()]);
+                }
                 return false;
             }
         });
     }
 
     private void clearSearch(){
+        clearSearch = true;
         sv.setQuery("", false);
         sv.clearFocus();
     }
@@ -255,7 +261,6 @@ public class ListFragment extends Fragment {
                     public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                         List<Article> articles = NewsResponseMapper.transform(response.body(), query);
                         newsVM.insertAll(articles);
-
                     }
 
                     @Override

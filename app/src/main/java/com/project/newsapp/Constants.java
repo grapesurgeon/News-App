@@ -7,7 +7,8 @@ public class Constants {
 
     public static final int USER_API = 2;
 
-    public static final String API_KEY = "505815adde3548848665934d7be869f7";
+    //    public static final String API_KEY = "505815adde3548848665934d7be869f7";d54407a15bbc45169a988a5968a94561
+    public static final String API_KEY = "d54407a15bbc45169a988a5968a94561";
 
     public static final String DB_PREFERENCE = "com.project.newsapp.SessionManagerUtil.DB_PREFERENCE";
 
